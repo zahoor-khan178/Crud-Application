@@ -1,6 +1,6 @@
 It is a simple crud application in which you can create, read, update and delete data dynamically.
 it is mern stack project.
-this project create using following technologies:
+this project is created using following technologies:
 
 1) html
 2) css
