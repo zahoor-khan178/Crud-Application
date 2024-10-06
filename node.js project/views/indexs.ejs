@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+
+<body>
+    <%if(deletemessage){%>
+
+
+        <div class="deletenotification">
+            <%=deletemessage%>
+                <button type="button" class="yes">Yes</button>
+                <button type="button" class="No">No</button>
+
+        </div>
+
+        <%}%>
+
+
+
+            <div class="box">
+                <h1 class="header">User Details</h1>
+                <table class="tb">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Password</th>
+                            <th class="contact-head">Contact_No <button class="add" id="add1">+Add</button></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%if(data){%>
+                            <% data.forEach(function(student) { %>
+                                <tr>
+                                    <td>
+                                        <%= student.Name %>
+                                    </td>
+                                    <td>
+                                        <%= student.Email %>
+                                    </td>
+                                    <td>
+                                        <%= student.Password %>
+                                    </td>
+                                    <td class="contact-col">
+                                        <%= student.Contact_No %>
+                                            <a href="/users/add/<%= student._id %>" class="edit">Edit</a>
+                                            <form action="/users/delete/<%= student._id %>" method="post" id="delform">
+                                                <button type="submit" id="del">DEL</button>
+                                            </form>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                                    <%}%>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="delnotification"></div>
+
+
+            <script>
+
+
+
+
+
+
+                document.getElementById("add1").onclick = function () {
+                    window.location.href = "/users/add";
+                };
+
+
+                const yesbutton = document.querySelector('.yes');
+                const nobutton = document.querySelector('.No');
+                const deleteform = document.getElementById('delform');
+
+                if (yesbutton && nobutton) {
+
+                    const deleteid = "<%=deleteid%>";
+                    yesbutton.addEventListener('click', function () {
+
+                        deleteform.action = '/users/deleteyes/' + deleteid;
+                        deleteform.submit();
+                    })
+
+                    nobutton.addEventListener('click', function () {
+
+                        document.getElementsByClassName("deletenotification")[0].style.display = 'none';
+                    })
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const message = urlParams.get('message');
+                const notification = document.getElementsByClassName('delnotification')[0];
+
+
+
+
+                if (message) {
+
+                    setTimeout(() => {
+
+                        notification.innerHTML = message;
+                        if (message == "One record deleted successfully") {
+
+                            notification.style.color = 'red';
+                        }
+                        notification.style.display = "inline-block";
+
+                        setTimeout(() => {
+                            notification.style.display = "none";
+
+                            // Clear the message from the URL to prevent it from appearing on reload
+                            urlParams.delete('message');
+                            window.history.replaceState({}, document.title, window.location.pathname); // Clear only the message
+                        }, 2000);
+                    }, 100);
+                }
+
+
+            </script>
+
+
+</body>
+
+</html>

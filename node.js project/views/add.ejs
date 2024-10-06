@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>add</title>
+    <link rel="stylesheet" href="/adding.css">
+</head>
+
+<body>
+
+    <% if (message) { %>
+
+
+        <div class="delnotification">
+            <%= message %>
+        </div>
+
+        <% } %>
+            <div class="register">
+                <h1>User Registeration</h1>
+
+
+
+                <% if(dataInitial){%>
+
+                    <form id="userForm" action="/users/edit" method="post">
+                        <input type="hidden" value="<%= user._id  %>" name="_id" id="hiddenid">
+
+                        <label for="name">Name</label>
+                        <input type="text" class="short" id="name" name="Name" required value="<%= user.Name %>"
+                            data-initial="<%=  dataInitial.Name %>">
+
+                        <label for="email">Email</label>
+                        <input type="email" class="short" id="email" name="Email" required value="<%= user.Email %>"
+                            data-initial="<%=dataInitial.Email  %>">
+
+                        <label for="password">Password</label>
+                        <input type="text" class="large" id="password" name="Password" required
+                            value="<%= user.Password %>" data-initial="<%= dataInitial.Password %>">
+
+                        <label for="contact" id="contact-lable">Contact No</label>
+                        <input type="text" class="large" id="contact" name="Contact_No" required
+                            value="<%= user.Contact_No %>" data-initial="<%=dataInitial.Contact_No %>">
+
+                        <button class="submit" id="submit1" type="submit">update</button>
+
+                    </form>
+
+
+                    <%} else {%>
+
+
+                        <form id="userForm" action="/users/create" method="post">
+                            <!-- <input type="hidden" value="<%= user._id ? user._id : '' %>" name="_id" id="hiddenid"> -->
+
+                            <label for="name">Name</label>
+                            <input type="text" class="short" id="name" name="Name" required value="<%= user.Name %>"
+                                data-initial="<%=  user.Name %>">
+
+                            <label for="email">Email</label>
+                            <input type="email" class="short" id="email" name="Email" required value="<%= user.Email %>"
+                                data-initial="<%=user.Email  %>">
+
+                            <label for="password">Password</label>
+                            <input type="text" class="large" id="password" name="Password" required
+                                value="<%= user.Password %>" data-initial="<%= user.Password %>">
+
+                            <label for="contact" id="contact-lable">Contact No</label>
+                            <input type="text" class="large" id="contact" name="Contact_No" required
+                                value="<%= user.Contact_No %>" data-initial="<%=user.Contact_No %>">
+
+                            <button class="submit" id="submit1" type="submit">submit</button>
+
+                        </form>
+
+
+                        <%}%>
+
+
+
+
+
+            </div>
+
+
+
+            <script>
+
+                document.addEventListener("DOMContentLoaded", function () {
+                    const hidden = document.getElementById('hiddenid');
+
+
+                    if (hidden.value && /^[0-9a-fA-F]{24}$/.test(hidden.value)) {
+                        const formInputs = document.querySelectorAll('input[type="text"], input[type="email"]');
+                        const submitButton = document.getElementById('submit1');
+                        const initialInput = Array.from(formInputs).map(input => input.dataset.initial);
+
+                        function checkForChanges() {
+                            let hasChanges = false;
+
+                            formInputs.forEach((input, index) => {
+                                if (input.value.trim() !== initialInput[index].trim()) {
+                                    hasChanges = true;
+                                }
+                            });
+
+                            submitButton.disabled = !hasChanges;
+                            if (!hasChanges) {
+                                submitButton.style.color = "rgb(227, 221, 221)";
+                                submitButton.style.backgroundColor = "rgb(231, 145, 231)";
+                                submitButton.style.opacity = "0.8";
+                                submitButton.style.boxShadow = "0 0 2px 2px";
+                            } else {
+                                submitButton.style.color = "white";
+                                submitButton.style.backgroundColor = "rgb(216, 65, 216)";
+                                submitButton.style.opacity = "1";
+                                submitButton.style.boxShadow = "none";
+                            }
+                        }
+
+                        checkForChanges();
+
+                        formInputs.forEach(input => {
+                            input.addEventListener('input', checkForChanges);
+                        });
+                    }
+
+                });
+
+
+                const notification = document.getElementsByClassName('delnotification')[0];
+                if (notification) {
+                    setTimeout(() => {
+
+                        notification.style.display = 'none';
+
+                    }, 2000);
+                }
+
+            </script>
+
+
+
+
+</body>
+
+</html>
