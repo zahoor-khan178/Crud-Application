@@ -25,16 +25,4 @@ This project is developed using the following technologies:
   - Users can view their data records in a table format.
   - Users can delete their records with a simple click.
 
-## Getting Started
 
-### Prerequisites
-
-- Node.js (v14 or higher)
-- MongoDB (local installation or Atlas account)
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/crud-application.git
-   cd crud-application
